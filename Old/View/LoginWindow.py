@@ -1,5 +1,5 @@
 from Controller.Config import *
-from View.RootWindow import RootWindow
+from Old.View.RootWindow import RootWindow
 
 
 import sys
@@ -47,7 +47,7 @@ class LoginWindow(RootWindow, ConfigApplication):
         #user_list_widget.setGeometry(int((root_window_size[0]-user_list_widget_size[0])/2),int((root_window_size[1]-user_list_widget_size[1])/2),
          #                            user_list_widget_size[0], user_list_widget_size[1])
 
-        self.set_users_lsit_widget()
+        self.set_users_lsit_widget(None)
 
         self.user_list_widget.setStyleSheet("background-color:#F00")
 #        self.user_list_widget.resizeEvent(set_users_list_widget)
@@ -57,21 +57,22 @@ class LoginWindow(RootWindow, ConfigApplication):
         else:
             pass
 
+        self.resizeEvent = self.set_users_lsit_widget
         button = QPushButton(self)
         button.setText("Inne Okno")
         button.clicked.connect(self.buttonNewLook)
 
         self.render()
 
-    def set_users_lsit_widget(self):
+    def set_users_lsit_widget(self, event):
         root_window_size = [self.width(), self.height()]
         self.user_list_widget.setGeometry(int((root_window_size[0] - self.user_list_widget_size[0]) / 2),
                                      int((root_window_size[1] - self.user_list_widget_size[1]) / 2),
                                      self.user_list_widget_size[0], self.user_list_widget_size[1])
 
     def resizeEvent(self, QResizeEvent):
-        self.set_users_lsit_widget()
-        #print("Success")
+        #self.set_users_lsit_widget()
+        print("Success")
 
     def render(self):
         '''

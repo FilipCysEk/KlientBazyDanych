@@ -14,3 +14,10 @@ class RootWindow(QWidget):
         self.setMinimumWidth(self.configuration.getMinimalWidth())
         self.setMinimumHeight(self.configuration.getMinimalHeight())
         self.resize(self.configuration.getMinimalWidth(), self.configuration.getMinimalHeight())
+
+    def resizeEvent(self, QResizeEvent):
+        pass
+
+    def moveEvent(self, QMoveEvent):
+        #print("SIalalalal")
+        pass
