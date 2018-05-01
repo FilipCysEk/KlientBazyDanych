@@ -48,7 +48,8 @@ class LoginWindow(QWidget, ConfigApplication):
         self.view.buttonOK.clicked.connect(self.acceptAddNewUser)
 
     def testConnection(self):
-        pass
+        self.view.passwordWindow()
+
 
     def acceptAddNewUser(self):
         user_data = DataFileService()
@@ -56,8 +57,10 @@ class LoginWindow(QWidget, ConfigApplication):
 
         if len(self.view.line1_username.text()) > 3 and len(self.view.line2_host.text()) > 3 and len(self.view.line3_db.text()) > 3:
             if user_data.addNewUser(self.view.line1_username.text(), self.view.line2_host.text(), self.view.line3_db.text()):
+
                 self.updateUserList()
                 #print(self.view.line1_username.text(), self.view.line2_host.text(), self.view.line3_db.text())
+
             self.view.dialog.close()
             self.view.dialog.destroy()
 

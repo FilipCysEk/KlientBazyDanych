@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QScrollArea, QGridLayout, QLineEdit, QPushButton, QButtonGroup
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QScrollArea, QGridLayout, QLineEdit, QPushButton, QButtonGroup, QMessageBox
+from PyQt5.QtWidgets import QHBoxLayout, QDialog, QDialogButtonBox
 
 class LoginWindowView:
     def __init__(self, window):
@@ -121,3 +122,38 @@ class LoginWindowView:
     def newUserWindowCancelButton(self):
         self.dialog.close()
         self.dialog.destroy()
+
+    def passwordWindow(self):
+        self.passWindow = QDialog()
+
+        passWindow_label = QLabel(self.passWindow)
+        passWindow_label.setText("Podaj Hasło")
+
+        self.line_pass = QLineEdit(self.passWindow)
+        self.line_pass.setEchoMode(QLineEdit.Password)
+
+        self.passWindow.setFixedHeight(120)
+        self.passWindow.setFixedWidth(300)
+
+        passWindow_v_lay = QVBoxLayout(self.passWindow)
+        passWindow_h_lay = QHBoxLayout(self.passWindow)
+        self.passWindow.setLayout(passWindow_v_lay)
+
+        passWindow_label.setLayout(passWindow_h_lay)
+        passWindow_v_lay.addWidget(passWindow_label)
+        passWindow_v_lay.addWidget(self.line_pass)
+
+        self.passWindow_buttons = QDialogButtonBox(self.passWindow)
+        self.passWindow_buttons.addButton(QDialogButtonBox.Ok)
+        self.passWindow_buttons.addButton(QDialogButtonBox.Cancel)
+        self.passWindow_buttons.button(QDialogButtonBox.Cancel).clicked.connect(self.passWindowCancelEvent)
+
+        passWindow_v_lay.addWidget(self.passWindow_buttons)
+
+
+
+        self.passWindow.show()
+
+    def passWindowCancelEvent(self, event):
+        self.passWindow.close()
+        self.passWindow.destroy()
