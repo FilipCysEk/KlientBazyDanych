@@ -13,7 +13,7 @@ class TableView(RootWindow, ConfigApplication):
     def __init__(self):
         super().__init__()
         ConfigApplication.__init__(self)
-        print(self.windowTitle)
+        print(self.windowTitle,"             ------ :D")
 
 
         self.app = None
@@ -22,7 +22,7 @@ class TableView(RootWindow, ConfigApplication):
         After initialize class, you must run this, to start running application
         :return: nothing
         '''
-        self.setWindowTitle(self.windowTitle + " - Logowanie")
+        self.setWindowTitle(self.windowTitle + " - Tabele")
         label = QLabel(self)
         label.setText("Inne okno!!?")
 

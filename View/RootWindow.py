@@ -1,7 +1,13 @@
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QObject, pyqtSignal
+
 from Controller.Config import *
 
 class RootWindow(QWidget):
+    #Add signal
+    #Dodanie sygnału
+    update_window = pyqtSignal(int)
+
     def __init__(self):
         super().__init__()
         self.configuration = ConfigApplication()

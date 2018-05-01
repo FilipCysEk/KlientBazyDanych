@@ -3,27 +3,34 @@
 
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtCore import pyqtSlot
 
 from Controller.Config import *
 from View.LoginWindow import *
+from View.RootWindow import RootWindow
+from View.TableView import TableView
 
 
-        #rootWindow.resize(configuration.getMinimalWidth(), configuration.getMinimalHeight())
+class MainClass:
+    def __init__(self):
+        self.main_window = RootWindow()
 
+    def run(self):
+        self.main_window = LoginWindow()
+        self.connect_update_window(self.main_window)
+        self.main_window.run()
 
+    def connect_update_window(self, window):
+        window.update_window.connect(self.slot_update_window)
+
+    #@pyqtSlot(int)
+    def slot_update_window(self, name):
+        print("Dobre sygnały")
+        if name == 2:
+            self.main_window = TableView()
+            self.main_window.run()
 
 app = QApplication(sys.argv)
-'''
-rootWindow = QWidget()
-rootWindow.setMinimumWidth(configuration.getMinimalWidth())
-rootWindow.setMinimumHeight(configuration.getMinimalHeight())
-rootWindow.resize(configuration.getMinimalWidth(), configuration.getMinimalHeight())
-'''
-test = LoginWindow()
-#rootWindow.resizeEvent(test.set_users_lsit_widget())
-#rootWindow.resizeEvent()
-test.run()
-
-
-
+main = MainClass()
+main.run()
 sys.exit(app.exec_())

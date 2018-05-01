@@ -7,9 +7,15 @@ import hashlib
 import csv
 from PyQt5.QtGui import QColor, QResizeEvent
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QBoxLayout, QLayout, QHBoxLayout, QVBoxLayout, QPushButton
+from PyQt5.QtCore import Qt, pyqtSignal
 
 
 class LoginWindow(RootWindow, ConfigApplication):
+
+    # Add signal
+    # Dodanie sygnału
+    update_window = pyqtSignal(int)
+
     def __init__(self):
         super().__init__()
         ConfigApplication.__init__(self)
@@ -77,6 +83,7 @@ class LoginWindow(RootWindow, ConfigApplication):
 
     def buttonNewLook(self):
         print("Nie wiem")
+        self.update_window.emit(2)
 
 
 class DataFileService:
