@@ -44,10 +44,11 @@ class LoginWindow(QWidget, ConfigApplication):
         user_data = DataFileService()
         user_list = user_data.get_usernames_and_adress()
         self.view.drawUserList(user_list)
+        for i in range(0, len(self.view.label_user_list)):
+            self.view.label_user_list[i].clicked.connect(self.connectToDb)
         self.update()
 
     def addNewUser(self, event):
-        print("Nowe Okienko")
         self.view.newUserWindow()
         self.view.buttonTest.clicked.connect(self.testConnection)
         self.view.buttonOK.clicked.connect(self.acceptAddNewUser)
@@ -101,7 +102,6 @@ class LoginWindow(QWidget, ConfigApplication):
         #print(self.view.data_login_window)
         if QMessageBox.question(self.view.login_window, "Potwierdzenie", "Czy na pewno chcesz usunąć to konto?",
                                 QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
-            print("Usuwamy konto")
             data_file = DataFileService()
             if data_file.deleteUser(self.view.data_login_window[0], self.view.data_login_window[1], self.view.data_login_window[2]):
                 pass

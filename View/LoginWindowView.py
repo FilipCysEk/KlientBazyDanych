@@ -71,8 +71,6 @@ class LoginWindowView:
 
             for i in range(0, len(self.label_user_list)):
                 self.v_lay_user_list_widget.addWidget(self.label_user_list[i])
-                #self.label_user_list[i].clicked.connect(lambda :self.test(self.label_user_list[i].text()))
-                #self.label_user_list[i].clicked.connect(self.test)
 
             self.v_lay_user_list_widget.addStretch()
             self.user_scroll.setWidget(self.user_list_widget)
