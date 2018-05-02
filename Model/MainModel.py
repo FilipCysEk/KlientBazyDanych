@@ -8,9 +8,9 @@ class MainModel:
     def testConnection(self, user, host, passw, database):
         try:
             connection = mysql.connector.connect(host=host, user=user, password=passw, database=database)
+            connection.close()
             return True
 
         except mysql.connector.Error as err:
             return err
             print(err)
-

@@ -24,7 +24,7 @@ class LoginWindowView:
         self.user_list_widget.setLayout(self.v_lay_user_list_widget)
 
         #self.background_user_button = "background-color: rgba(0, 0, 0, 0.1)"
-        self.background_user_button = "background-color: rgba(0, 0, 0, 0)"
+        self.background_user_button = "background-color: #EEE"
 
         self.new_user_label = QLabel(self.user_list_widget)
         self.new_user_label.setText("+ Dodaj nowego użytkownika")
@@ -53,21 +53,39 @@ class LoginWindowView:
             self.v_lay_user_list_widget.addStretch()
         else:
             for row in userList:
-                temp = QLabel(self.user_list_widget)
+                temp = QPushButton(self.user_list_widget)
                 temp.setText(row[0] + "@" + row[1])
                 temp.setFixedHeight(40)
                 temp.setFixedWidth(self.user_list_size[0] - 40)
                 temp.setStyleSheet(self.background_user_button)
+                #temp.setStyleSheet("background-color:rgba(255, 0, 0, 0)")
+
                 self.label_user_list.append(temp)
 
+            '''
             for row in self.label_user_list:
                 self.v_lay_user_list_widget.addWidget(row)
+                .clicked.connect(lambda: self.test(tempi))
+                tempi += 1
+            '''
+
+            for i in range(0, len(self.label_user_list)):
+                self.v_lay_user_list_widget.addWidget(self.label_user_list[i])
+                #self.label_user_list[i].clicked.connect(lambda :self.test(self.label_user_list[i].text()))
+                #self.label_user_list[i].clicked.connect(self.test)
 
             self.v_lay_user_list_widget.addStretch()
             self.user_scroll.setWidget(self.user_list_widget)
 
     def clickedButton(self, event):
         print("ClicketButton")
+
+    def test(self):
+        temp = self.user_list_widget.sender()
+        for i in range(0, len(self.label_user_list)):
+            if self.label_user_list == temp:
+                print()
+        print(temp, " - ", temp.text())
 
 
     def newUserWindow(self):
@@ -123,8 +141,8 @@ class LoginWindowView:
         self.dialog.close()
         self.dialog.destroy()
 
-    def passwordWindow(self):
-        self.passWindow = QDialog()
+    def passwordWindow(self, parent):
+        self.passWindow = QDialog(parent)
 
         passWindow_label = QLabel(self.passWindow)
         passWindow_label.setText("Podaj Hasło")
@@ -136,10 +154,8 @@ class LoginWindowView:
         self.passWindow.setFixedWidth(300)
 
         passWindow_v_lay = QVBoxLayout(self.passWindow)
-        passWindow_h_lay = QHBoxLayout(self.passWindow)
         self.passWindow.setLayout(passWindow_v_lay)
 
-        passWindow_label.setLayout(passWindow_h_lay)
         passWindow_v_lay.addWidget(passWindow_label)
         passWindow_v_lay.addWidget(self.line_pass)
 
@@ -157,3 +173,69 @@ class LoginWindowView:
     def passWindowCancelEvent(self, event):
         self.passWindow.close()
         self.passWindow.destroy()
+
+    def messageOK(self, text, text2 = None, parrent = None):
+        message = QMessageBox(parrent)
+        message.setText(text)
+        message.setInformativeText(text2)
+        message.setIcon(QMessageBox.Information)
+        message.show()
+
+    def messageBad(self, text, text2 = None, parrent = None):
+        message = QMessageBox(parrent)
+        message.setText(text)
+        message.setInformativeText(text2)
+        message.setIcon(QMessageBox.Critical)
+        message.show()
+
+    def messageNeutral(self, text, text2 = None, parrent = None):
+        message = QMessageBox(parrent)
+        message.setText(text)
+        message.setInformativeText(text2)
+        message.show()
+
+    def loginWindow(self, username, host, db):
+        self.login_window = QDialog()
+        self.login_window.setWindowTitle("Logowanie do " + username + "@" + host)
+        self.login_window.setFixedWidth(300)
+        self.login_window.setFixedHeight(200)
+        self.data_login_window = [username, host, db]
+
+        label1_login_window = QLabel(self.login_window)
+        label2_login_window = QLabel(self.login_window)
+        label3_login_window = QLabel(self.login_window)
+        label1_login_window.setText("<h2>Chcesz się zalogować do:</h2>")
+        label2_login_window.setText("Nazwa użytkownika:\t" + username +
+                                    "\nHost:\t\t\t" + host +"\nBaza:\t\t\t" + db)
+        label3_login_window.setText("Podaj hasło:")
+
+        self.line1_login_window = QLineEdit(self.login_window)
+        self.line1_login_window.setEchoMode(QLineEdit.Password)
+
+        self.button_delete_login_window = QPushButton(self.login_window)
+        self.button_delete_login_window.setText("Usuń to konto")
+
+        self.button_login_window = QDialogButtonBox(self.login_window)
+        self.button_login_window.addButton(self.button_delete_login_window, QDialogButtonBox.AcceptRole)
+        self.button_login_window.addButton(QDialogButtonBox.Ok)
+        self.button_login_window.addButton(QDialogButtonBox.Cancel)
+
+        self.button_login_window.button(QDialogButtonBox.Cancel).clicked.connect(self.loginWindowCancelEvent)
+
+        #self.button_login_window.(QDialogButtonBox.MacLayout)
+
+        v_lay_login_window = QVBoxLayout(self.login_window)
+        self.login_window.setLayout(v_lay_login_window)
+
+        v_lay_login_window.addWidget(label1_login_window)
+        v_lay_login_window.addWidget(label2_login_window)
+        v_lay_login_window.addWidget(label3_login_window)
+        v_lay_login_window.addWidget(self.line1_login_window)
+        v_lay_login_window.addStretch()
+        v_lay_login_window.addWidget(self.button_login_window)
+
+        self.login_window.show()
+
+    def loginWindowCancelEvent(self, event):
+        self.login_window.close()
+        self.login_window.destroy()
