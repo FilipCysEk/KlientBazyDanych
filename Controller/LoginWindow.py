@@ -5,21 +5,41 @@ from Model.MainModel import *
 import csv
 import sys
 from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel
+from PyQt5.QtCore import pyqtSignal
 from View.LoginWindowView import *
 
 
 class LoginWindow(QWidget, ConfigApplication):
+    update_window = pyqtSignal(str)
+
     def __init__(self, root_window):
         super().__init__()
         ConfigApplication.__init__(self)
         self.root_window = root_window
-        v_layout = QVBoxLayout(root_window)
-        v_layout.addWidget(self)
+        self.v_layout = QVBoxLayout(root_window)
+        self.v_layout.addWidget(self)
         self.view = LoginWindowView(self)
         self.model = MainModel()
 
 
         self.root_window.setWindowTitle(self.windowTitle + " - Logowanie")
+
+    def __del__(self):
+        self.v_layout.deleteLater()
+        try:
+            del self.view
+        except AttributeError:
+            pass
+        del self.model
+        #self.root_window.layout.deleteLater()
+        #self.lay
+        pass
+
+
+
+
+
+
 
     def run(self):
         '''
@@ -93,13 +113,12 @@ class LoginWindow(QWidget, ConfigApplication):
 
                 #self.view.button_delete_login_window.clicked.connect(self.deleteAccount(user_list[i]))
                 self.view.button_delete_login_window.clicked.connect(self.deleteAccount)
-
+                self.view.button_login_window.button(QDialogButtonBox.Ok).clicked.connect(self.loginWindowLoginEvent)
                 break
 
     #def deleteAccount(self, data_user):
     def deleteAccount(self):
-        data_user = self.view.login_window.sender()
-        #print(self.view.data_login_window)
+        #data_user = self.view.login_window.sender()
         if QMessageBox.question(self.view.login_window, "Potwierdzenie", "Czy na pewno chcesz usunąć to konto?",
                                 QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
             data_file = DataFileService()
@@ -108,7 +127,30 @@ class LoginWindow(QWidget, ConfigApplication):
 
             self.view.login_window.close()
             self.updateUserList()
-        #self.view.confirmWindow("Czy na pewno chcesz usunąć to konto?")
+
+    def loginWindowLoginEvent(self):
+        res = self.model.testConnection(self.view.data_login_window[0], self.view.data_login_window[1], self.view.line1_login_window.text(),
+                                        self.view.data_login_window[2])
+        if res == True:
+            self.connection_to_db = self.model.makeConnection(self.view.data_login_window[0], self.view.data_login_window[1], self.view.line1_login_window.text(),
+                                        self.view.data_login_window[2])
+            if self.connection_to_db == True:
+                self.connection_to_db = self.model.connection
+            else:
+                cos = QMessageBox.critical(self.view.login_window, "Błąd!", "Błąd logowania!!\n" + str(self.connection_to_db),
+                                           QMessageBox.Ok)
+                pass
+
+            self.view.login_window.destroy()
+            del self.view
+            self.v_layout.deleteLater()
+            self.deleteLater()
+            self.destroy()
+            #print("Rysujemy nowe okienko")
+            self.update_window.emit("table_list")
+        else:
+            cos = QMessageBox.critical(self.view.login_window, "Błąd!", "Błąd logowania!!\n" + str(res), QMessageBox.Ok)
+
 
     def resizeEvent(self, QResizeEvent):
         self.view.centeringUserListWidget()

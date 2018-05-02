@@ -5,6 +5,77 @@ class LoginWindowView:
     def __init__(self, window):
         self.main_widget = window
 
+    def __del__(self):
+        #if self.main_widget in :
+        self.user_list_widget.deleteLater()
+        self.user_scroll.deleteLater()
+        self.main_widget.deleteLater()
+        '''
+        self.user_list_widget.destroy()
+        self.user_scroll.destroy()
+        self.main_widget.destroy()
+        print("Ds")
+        
+        if self.user_scroll in self:
+            self.user_scroll.destroy()
+
+        if self.v_lay_user_list_widget in self:
+            self.v_lay_user_list_widget.deleteLater()
+
+        if self.new_user_label in self:
+            self.new_user_label.deleteLater()
+
+        if self.label_user_list in self:
+            for i in range(0, len(self.label_user_list)):
+                self.label_user_list[i].deleteLater()
+
+        if self.dialog in self:
+            self.dialog.destroy()
+
+        if self.line1_username in self:
+            self.line1_username.deleteLater()
+
+        if self.line2_host in self:
+            self.line2_host.deleteLater()
+
+        if self.line3_db in self:
+            self.line3_db.deleteLater()
+
+        if self.line2_host in self:
+            self.line2_host.deleteLater()
+
+        if self.buttonOK in self:
+            self.buttonOK.deleteLater()
+
+        if self.buttonTest in self:
+            self.buttonTest.deleteLater()
+
+        if self.dialog_layout in self:
+            self.dialog_layout.deleteLater()
+
+        if self.passWindow in self:
+            self.passWindow.destroy()
+
+        if self.line_pass in self:
+            self.line_pass.deleteLater()
+
+        if self.passWindow_buttons in self:
+            self.passWindow_buttons.destroy()
+
+        if self.login_window in self:
+            self.login_window.destroy()
+
+        if self.line1_login_window in self:
+            self.line1_login_window.deleteLater()
+
+        if self.button_delete_login_window in self:
+            self.button_delete_login_window.deleteLater()
+
+        if self.button_login_window in self:
+            self.button_login_window.destroy()
+        '''
+
+
     def initDraw(self, width, height):
         self.main_widget.setMinimumWidth(width)
         self.main_widget.setMinimumHeight(height)
