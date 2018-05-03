@@ -2,7 +2,7 @@
 #This file inicjalize all program
 
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout
 from PyQt5.QtCore import pyqtSlot
 
 from Controller.Config import *
@@ -17,6 +17,8 @@ class MainClass:
     def __init__(self):
         #self.main_window = RootWindow()
         self.main_window = QWidget()
+        self.main_window_layout = QVBoxLayout(self.main_window)
+        self.main_window.setLayout(self.main_window_layout)
         self.main_window.closeEvent = self.closeEvent
         self.connection_to_db = None
 
@@ -36,7 +38,7 @@ class MainClass:
             #del self.main_window
             #self.main_window.deleteLater()
             self.connection_to_db = self.main_window_content.connection_to_db
-            self.main_window_content = TableList(self.main_window)
+            self.main_window_content = TableList(self.main_window, self.connection_to_db)
             self.main_window_content.run()
 
     def closeEvent(self, event):

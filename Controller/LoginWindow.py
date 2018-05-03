@@ -16,7 +16,7 @@ class LoginWindow(QWidget, ConfigApplication):
         super().__init__()
         ConfigApplication.__init__(self)
         self.root_window = root_window
-        self.v_layout = QVBoxLayout(root_window)
+        self.v_layout = root_window.layout()
         self.v_layout.addWidget(self)
         self.view = LoginWindowView(self)
         self.model = MainModel()
@@ -34,11 +34,6 @@ class LoginWindow(QWidget, ConfigApplication):
         #self.root_window.layout.deleteLater()
         #self.lay
         pass
-
-
-
-
-
 
 
     def run(self):
@@ -141,9 +136,9 @@ class LoginWindow(QWidget, ConfigApplication):
                                            QMessageBox.Ok)
                 pass
 
+            self.v_layout.removeWidget(self)
             self.view.login_window.destroy()
             del self.view
-            self.v_layout.deleteLater()
             self.deleteLater()
             self.destroy()
             #print("Rysujemy nowe okienko")

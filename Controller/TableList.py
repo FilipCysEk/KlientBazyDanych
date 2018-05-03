@@ -2,9 +2,9 @@ from Controller.Config import *
 from Model.MainModel import *
 
 import sys
-from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel, QButtonGroup, QSizePolicy
 from PyQt5.QtCore import pyqtSignal
-from View.LoginWindowView import *
+from View.TableListView import *
 
 
 class TableList(QWidget, ConfigApplication):
@@ -14,12 +14,25 @@ class TableList(QWidget, ConfigApplication):
         super().__init__(root_window)
         ConfigApplication.__init__(self)
         self.root_window = root_window
-        #v_layout = QVBoxLayout(root_window)
-        #v_layout.addWidget(self)
-        #self.view = LoginWindowView(self)
+        self.v_layout = root_window.layout()
+        self.v_layout.addWidget(self)
+        #self.v_layout = QVBoxLayout()
+        print(self.v_layout.sizeHint())
+
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+        self.setStyleSheet("background-color:#00F")
+
+        print(self.geometry())
+        print(self.v_layout.geometry())
+
+        self.view = TableListView(self, self.root_window)
         self.model = MainModel()
 
         self.root_window.setWindowTitle(self.windowTitle + " - Lista tabel")
+
+    def __del__(self):
+        self.button_group.deleteLater()
 
     def run(self):
         '''
@@ -30,3 +43,9 @@ class TableList(QWidget, ConfigApplication):
         self.show()
         print("Jestem w TableList")
         self.root_window.update()
+        self.root_window.show()
+
+    def resizeEvent(self, QResizeEvent):
+        #self.setFixedWidth(self.root_window.width())
+        #self.setFixedHeight(self.root_window.height())
+        print(self.geometry())
